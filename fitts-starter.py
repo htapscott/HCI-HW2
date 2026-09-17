@@ -22,15 +22,14 @@ collected_times = []
 raw_scatter_points = [] # Holds [distance, time] for plotting
 
 def calculate_fitts(distance, width, use_a, use_b):
-    # TODO: Write function body. 
+    # TODO: Write function body. DONE
     # This function should return the predicted movement time given the distance and width of a target, and values for the constants a and b. 
     # This function must call the function calculate_index_difficulty. 
-    return -1
+    return use_a + use_b * calculate_index_difficulty(distance, width)
 
 def calculate_index_difficulty(distance, width):
-    # TODO: Write function body. 
-    # This function should return the index of difficulty of a task, given the distance and width of a target. 
-    return -1
+    # TODO: Write function body. DONE
+    return math.log2(1 + distance / width)
 
 def update_predictor():
     dist = distance_slider.value
@@ -42,8 +41,8 @@ def update_predictor():
 
 def start_trial():
     trial_state['distance'] = distance_slider.value
-    # TODO: Get width value from slider instead of always using width 100. 
-    trial_state['width'] = 100 
+    # TODO: Get width value from slider instead of always using width 100. DONE
+    trial_state['width'] = width_slider.value
 
     trial_state['current_step'] = 1
     
@@ -111,7 +110,12 @@ def complete_trial():
 
     # Randomize distance slider after each trial.
     distance_slider.set_value(random.randint(distance_slider._props['min'], distance_slider._props['max']))
-    # TODO: Randomize width slider within the possible range of values (see distance example above).
+    # TODO: Randomize width slider within the possible range of values (see distance example above). DONE
+    width_slider.set_value(random.randrange(
+        width_slider._props['min'],
+        width_slider._props['max'] + 1,
+        width_slider._props['step'],
+    ))
 
     update_predictor()
 
@@ -135,7 +139,7 @@ def reset_dataset():
 # --- UI View Layer ---
 ui.markdown("### Fitts's Law Predictions")
 # TODO: Use the ui.markdown() method to add a line of text here that says "Edited by [your name]". Replace [your name] with your name!
-
+ui.markdown("Edited by Harry Tapscott.")
 ui.markdown("Change the sliders between clicks to log data across different difficulties.")
 
 with ui.row():
